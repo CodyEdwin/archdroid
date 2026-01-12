@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -121,7 +122,7 @@ public class TerminalSession {
                 }
 
                 int bytesRead;
-                while (isRunning.get() && inputStream.read(buffer).also { bytesRead = it } != -1) {
+                while (isRunning.get() && (bytesRead = inputStream.read(buffer)) != -1) {
                     if (bytesRead > 0) {
                         String data = new String(buffer, 0, bytesRead,
                             java.nio.charset.StandardCharsets.UTF_8);
@@ -165,10 +166,13 @@ public class TerminalSession {
         if (process != null) {
             process.destroy();
             try {
-                int exitCode = process.waitFor(1000);
+                boolean finished = process.waitFor(1, TimeUnit.SECONDS);
+                int exitCode = finished ? process.exitValue() : -1;
                 Log.d(TAG, "Process exited with code: " + exitCode);
             } catch (InterruptedException e) {
                 Log.w(TAG, "Process termination interrupted", e);
+            } catch (IllegalThreadStateException e) {
+                Log.w(TAG, "Process was not running", e);
             }
             process = null;
         }

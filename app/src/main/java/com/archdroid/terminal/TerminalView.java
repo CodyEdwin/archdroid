@@ -400,7 +400,6 @@ public class TerminalView extends View {
             return true;
         }
 
-        @Override
         public boolean onContextMenu(MotionEvent e) {
             // Handle long press for context menu
             return true;

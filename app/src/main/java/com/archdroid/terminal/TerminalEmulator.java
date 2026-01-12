@@ -277,7 +277,8 @@ public class TerminalEmulator {
     }
 
     private void executeCommand(char command, List<Integer> params) {
-        int getParam = (index, defaultVal) -> {
+        // Helper method to get parameter with default value
+        java.util.function.BiFunction<Integer, Integer, Integer> getParam = (index, defaultVal) -> {
             if (index < params.size()) {
                 return params.get(index);
             }

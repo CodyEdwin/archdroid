@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Background -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M0,0h48v48h-48z"/>
+    <!-- Terminal icon shape -->
+    <path
+        android:fillColor="#4FC3F7"
+        android:pathData="M8,12h32v24h-32z"/>
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M12,16h24v2h-24zM12,20h24v2h-24zM12,24h16v2h-16z"/>
+</vector>
