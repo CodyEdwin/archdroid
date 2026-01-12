@@ -25,6 +25,9 @@ jobs:
       with:
         api-level: 34
         build-tools: 34.0.0
+
+			- name: Mark gradlew executable
+      run: chmod +x ./gradlew
         
     - name: Build Debug APK
       run: ./gradlew assembleDebug
