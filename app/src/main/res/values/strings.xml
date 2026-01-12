@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+    <string name="app_name">ArchDroid</string>
+
+    <!-- Status messages -->
+    <string name="initializing">Initializing...</string>
+    <string name="downloading">Downloading: %d%%</string>
+    <string name="extracting">Extracting filesystem...</string>
+    <string name="configuring">Configuring system...</string>
+    <string name="installation_complete">Installation complete!</string>
+
+    <!-- Menu items -->
+    <string name="menu_new_session">New Session</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_reset">Reset Environment</string>
+    <string name="menu_help">Help</string>
+
+    <!-- Dialog titles -->
+    <string name="dialog_install_title">Install Arch Linux</string>
+    <string name="dialog_install_message">ArchDroid will download and extract the Arch Linux ARM64 root filesystem (approximately 600MB). This may take several minutes depending on your internet connection.\n\nDo you want to proceed?</string>
+    <string name="dialog_reset_title">Reset Environment</string>
+    <string name="dialog_reset_message">This will delete all data, installed packages, and configurations. You will need to reinstall Arch Linux.\n\nAre you sure you want to reset?</string>
+    <string name="dialog_help_title">Help</string>
+    <string name="dialog_exit_title">Exit ArchDroid</string>
+    <string name="dialog_exit_message">Are you sure you want to exit?</string>
+
+    <!-- Buttons -->
+    <string name="button_install">Install</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_reset">Reset</string>
+    <string name="button_exit">Exit</string>
+    <string name="button_grant">Grant</string>
+    <string name="button_ok">OK</string>
+
+    <!-- Settings -->
+    <string name="settings_terminal_section">Terminal</string>
+    <string name="settings_font_size">Font Size</string>
+    <string name="settings_font_size_desc">Adjust the terminal font size</string>
+    <string name="settings_about_section">About</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_description_title">About ArchDroid</string>
+    <string name="settings_description">ArchDroid provides a complete Arch Linux ARM64 environment on Android devices without requiring root access. It uses PRoot to run Arch Linux within the Android system.\n\nFor more information, visit:\nhttps://wiki.archlinux.org</string>
+
+    <!-- Errors -->
+    <string name="error_incompatible_device">Incompatible Device</string>
+    <string name="error_incompatible_device_message">This application requires an ARM64 (AArch64) device. Your device architecture is not supported.</string>
+    <string name="error_permission_required">Permission Required</string>
+    <string name="error_permission_message">Storage permissions are required to store the Linux filesystem.</string>
+    <string name="error_bootstrap_failed">Bootstrap Failed</string>
+
+    <!-- Notifications -->
+    <string name="notification_success">Arch Linux installed successfully!</string>
+</resources>

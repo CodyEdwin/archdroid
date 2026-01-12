@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors - Arch Linux Blue -->
+    <color name="primary">#1793D1</color>
+    <color name="primary_dark">#0D6CA8</color>
+    <color name="primary_light">#4DADE8</color>
+
+    <!-- Accent -->
+    <color name="accent">#1793D1</color>
+
+    <!-- Background Colors -->
+    <color name="background">#000000</color>
+    <color name="surface">#121212</color>
+    <color name="surface_elevated">#1E1E1E</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="text_disabled">#666666</color>
+
+    <!-- Terminal Colors -->
+    <color name="terminal_background">#000000</color>
+    <color name="terminal_foreground">#FFFFFF</color>
+    <color name="terminal_cursor">#FFFFFF</color>
+    <color name="terminal_selection">#1793D1</color>
+
+    <!-- ANSI Colors - Dracula Theme Inspired -->
+    <color name="ansi_black">#000000</color>
+    <color name="ansi_red">#FF5555</color>
+    <color name="ansi_green">#50FA7B</color>
+    <color name="ansi_yellow">#F1FA8C</color>
+    <color name="ansi_blue">#BD93F9</color>
+    <color name="ansi_magenta">#FF79C6</color>
+    <color name="ansi_cyan">#8BE9FD</color>
+    <color name="ansi_white">#F8F8F2</color>
+    <color name="ansi_bright_black">#6272A4</color>
+    <color name="ansi_bright_red">#FF6E6E</color>
+    <color name="ansi_bright_green">#69FF94</color>
+    <color name="ansi_bright_yellow">#FFFFA5</color>
+    <color name="ansi_bright_blue">#D6ACFF</color>
+    <color name="ansi_bright_magenta">#FF92DF</color>
+    <color name="ansi_bright_cyan">#A4FFFF</color>
+    <color name="ansi_bright_white">#FFFFFF</color>
+
+    <!-- Status Colors -->
+    <color name="success">#50FA7B</color>
+    <color name="warning">#F1FA8C</color>
+    <color name="error">#FF5555</color>
+
+    <!-- Progress Bar -->
+    <color name="progress_background">#333333</color>
+    <color name="progress_foreground">#1793D1</color>
+</resources>

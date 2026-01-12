@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="#1793D1"
+        android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0"/>
+
+    <!-- Terminal prompt symbol -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,42L38,66L52,54z"/>
+
+    <!-- Underscore -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M56,66L68,66L68,68L56,68z"/>
+
+</vector>
