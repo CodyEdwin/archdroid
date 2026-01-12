@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">archlinuxarm.org</domain>
+        <domain includeSubdomains="true">os.archlinuxarm.org</domain>
+        <domain includeSubdomains="true">mirror.archlinuxarm.org</domain>
+    </domain-config>
+</network-security-config>

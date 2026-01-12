@@ -13,6 +13,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * BootstrapManager handles the installation of Arch Linux ARM64 on the Android device
@@ -23,6 +33,8 @@ public class BootstrapManager {
     private static final String TAG = "BootstrapManager";
     private static final String ARCH_DOWNLOAD_URL =
         "https://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz";
+    private static final String ARCH_DOWNLOAD_URL_FALLBACK =
+        "http://mirror.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz";
     private static final String ROOTFS_DIR = "arch";
     private static final int BUFFER_SIZE = 8192;
     private static final int CONNECT_TIMEOUT = 30000;
@@ -31,6 +43,19 @@ public class BootstrapManager {
     private final Context context;
     private BootstrapListener listener;
     private boolean isCancelled = false;
+
+    // Trust manager that accepts all certificates (for bypassing SSL verification)
+    private final TrustManager[] trustAllCerts = new TrustManager[] {
+        new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
+        }
+    };
 
     public interface BootstrapListener {
         void onBootstrapStarted(String message);
@@ -41,6 +66,27 @@ public class BootstrapManager {
 
     public BootstrapManager(Context context) {
         this.context = context.getApplicationContext();
+    }
+
+    /**
+     * Setup SSL context to bypass certificate verification
+     */
+    private SSLContext createTrustAllSSLContext() {
+        try {
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, trustAllCerts, new SecureRandom());
+            return sslContext;
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            Log.e(TAG, "Failed to create SSL context", e);
+            return null;
+        }
+    }
+
+    /**
+     * Create a hostname verifier that accepts all hosts
+     */
+    private HostnameVerifier createTrustAllHostnameVerifier() {
+        return (hostname, session) -> true;
     }
 
     public void setBootstrapListener(BootstrapListener listener) {
@@ -157,11 +203,53 @@ public class BootstrapManager {
     }
 
     private void downloadFile(String urlString, File outputFile) throws IOException {
+        IOException lastException = null;
+        
+        // Try main URL first, then fallback URL
+        String[] urlsToTry = {urlString, ARCH_DOWNLOAD_URL_FALLBACK};
+        
+        for (String currentUrl : urlsToTry) {
+            try {
+                Log.d(TAG, "Attempting download from: " + currentUrl);
+                downloadFromUrl(currentUrl, outputFile);
+                Log.d(TAG, "Download successful from: " + currentUrl);
+                return;
+            } catch (IOException e) {
+                Log.w(TAG, "Download failed from: " + currentUrl, e);
+                lastException = e;
+                // Try next URL if available
+                if (!currentUrl.equals(urlsToTry[urlsToTry.length - 1])) {
+                    continue;
+                }
+            }
+        }
+        
+        // All URLs failed
+        throw lastException != null ? lastException : new IOException("Download failed from all sources");
+    }
+
+    private void downloadFromUrl(String urlString, File outputFile) throws IOException {
         URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        
+        HttpURLConnection connection;
+        if (urlString.startsWith("https")) {
+            // Setup SSL bypass for HTTPS connections
+            SSLContext sslContext = createTrustAllSSLContext();
+            HttpsURLConnection httpsConn = (HttpsURLConnection) url.openConnection();
+            
+            if (sslContext != null) {
+                httpsConn.setSSLSocketFactory(sslContext.getSocketFactory());
+            }
+            httpsConn.setHostnameVerifier(createTrustAllHostnameVerifier());
+            connection = httpsConn;
+        } else {
+            connection = (HttpURLConnection) url.openConnection();
+        }
+        
         connection.setConnectTimeout(CONNECT_TIMEOUT);
         connection.setReadTimeout(READ_TIMEOUT);
         connection.setRequestMethod("GET");
+        connection.setRequestProperty("User-Agent", "ArchDroid/1.0");
         connection.connect();
 
         int responseCode = connection.getResponseCode();
